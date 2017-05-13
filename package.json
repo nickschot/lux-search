@@ -1,0 +1,39 @@
+{
+  "name": "lux-search",
+  "version": "0.0.1",
+  "description": "Simple database search for Lux.",
+  "keywords": [
+    "search",
+    "lux",
+    "lux-util"
+  ],
+  "repository": "github:nickschot/lux-search",
+  "bugs": {
+    "url": "http://github.com/nickschot/lux-search/issues"
+  },
+  "author": "Nick Schot",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "babel lib -d dist --source-maps",
+    "test": "jest",
+    "prepublish": "npm run build"
+  },
+  "engines": {
+    "node": ">= 6.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-es2015-destructuring": "^6.19.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
+    "babel-plugin-transform-es2015-parameters": "^6.24.1",
+    "babel-plugin-transform-es2015-spread": "^6.8.0",
+    "babel-plugin-transform-exponentiation-operator": "^6.24.1",
+    "babel-plugin-transform-flow-strip-types": "^6.18.0",
+    "babel-plugin-transform-object-rest-spread": "^6.16.0",
+    "jest": "^19.0.2",
+    "lodash.snakecase": "^4.1.1"
+  }
+}
