@@ -15,7 +15,7 @@ Lux-search can be used to substring search a single or multiple columns whereas 
 
 
 ### Example
-  ```
+```
   import search from 'lux-search'
   
   index(request, response) {
@@ -30,7 +30,15 @@ Lux-search can be used to substring search a single or multiple columns whereas 
       ]
     );
   }
-  ```
+```
+  
+And an accompanying example request:
+  
+```
+  GET localhost:4000/?search[fullName]=SomeSubstr&search[someNumber]=123
+```
+
+NOTE: characters must of course be properly URL encoded.
 
 ### Drivers
 The aim is to support database drivers as supported by Lux.
