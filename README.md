@@ -1,6 +1,8 @@
 # lux-search
 Search util for [Lux](https://github.com/postlight/lux).
 
+__IMPORTANT:__ This util requires Lux >1.1.7 (currently not released).
+
 ## Install
 
     $ npm i --save lux-search
