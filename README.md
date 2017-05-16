@@ -1,7 +1,7 @@
 # lux-search
 Search util for [Lux](https://github.com/postlight/lux).
 
-__IMPORTANT:__ This util requires Lux >1.1.7 (currently not released).
+__IMPORTANT:__ This util requires Lux 1.2.0+.
 
 ## Install
 
