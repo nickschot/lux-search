@@ -12,10 +12,20 @@ describe('search', () => {
 
   const model = {
     tableName: 'test_table',
-    columnFor: jest.fn().mockImplementation((column) => ({
-      'type': 'varchar',
-      'columnName': underscore(column)
-    })),
+    columnFor: jest.fn().mockImplementation((column) => {
+      let type = 'varchar';
+
+      if(column === 'firstName'){
+        type = 'varchar';
+      } else if(column === 'age'){
+        type = 'integer'
+      }
+
+      return {
+        'type': type,
+        'columnName': underscore(column)
+      };
+    }),
     store: {
       config: {}
     }
@@ -30,12 +40,12 @@ describe('search', () => {
       },
       params: {
         'search': {
-          'name': 'John Doe'
+          'firstName': 'John'
         }
       }
     };
 
-    const columns = ['name'];
+    const columns = ['firstName'];
 
     expect(() => {
       search(query, request, columns)
@@ -52,7 +62,7 @@ describe('search', () => {
       params: {}
     };
 
-    const columns = ['name'];
+    const columns = ['firstName'];
 
     expect(search(query, request, columns)).toEqual(query);
   });
@@ -66,7 +76,7 @@ describe('search', () => {
       },
       params: {
         'search': {
-          'name': 'John Doe'
+          'firstName': 'John'
         }
       }
     };
@@ -74,5 +84,95 @@ describe('search', () => {
     const columns = [];
 
     expect(search(query, request, columns)).toEqual(query);
+  });
+
+  test('searches for text', () => {
+    model.store.config.driver = 'pg';
+
+    const request = {
+      controller: {
+        model: model
+      },
+      params: {
+        'search': {
+          'firstName': 'John'
+        }
+      }
+    };
+
+    const columns = ['firstName'];
+
+    expect(search(query, request, columns)).toEqual({
+      'queryString': 'test_table.first_name ILIKE ?',
+      'queryValues': ['%John%']});
+  });
+
+  test('searches for numbers', () => {
+    model.store.config.driver = 'pg';
+
+    const request = {
+      controller: {
+        model: model
+      },
+      params: {
+        'search': {
+          'age': 3
+        }
+      }
+    };
+
+    const columns = ['age'];
+
+    expect(search(query, request, columns)).toEqual({
+      'queryString': 'CAST(test_table.age AS TEXT) LIKE ?',
+      'queryValues': ['3%']});
+  });
+
+  test('searches multi column', () => {
+    model.store.config.driver = 'pg';
+
+    const request = {
+      controller: {
+        model: model
+      },
+      params: {
+        'search': {
+          'fullName': 'John Do'
+        }
+      }
+    };
+
+    const columns = [['fullName', ['firstName', 'suffix', 'lastName']]];
+
+    expect(search(query, request, columns)).toEqual({
+      'queryString': `coalesce(first_name, '') || coalesce(suffix, '') || coalesce(last_name, '') ILIKE ?`,
+      'queryValues': ['%JohnDo%']});
+  });
+
+  test('searches combined', () => {
+    model.store.config.driver = 'pg';
+
+    const request = {
+      controller: {
+        model: model
+      },
+      params: {
+        'search': {
+          'firstName': 'John',
+          'fullName': 'John Do',
+          'age': 3
+        }
+      }
+    };
+
+    const columns = [
+      'firstName',
+      'age',
+      ['fullName', ['firstName', 'suffix', 'lastName']]
+    ];
+
+    expect(search(query, request, columns)).toEqual({
+      'queryString': `test_table.first_name ILIKE ? AND CAST(test_table.age AS TEXT) LIKE ? AND coalesce(first_name, '') || coalesce(suffix, '') || coalesce(last_name, '') ILIKE ?`,
+      'queryValues': ['%John%', '3%', '%JohnDo%']});
   });
 });
