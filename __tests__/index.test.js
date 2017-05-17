@@ -90,6 +90,23 @@ describe('search', () => {
     expect(search(query, request, columns)).toEqual(query);
   });
 
+  test('gracefully skips if no search params are present', () => {
+    model.store.config.driver = 'pg';
+
+    const request = {
+      controller: {
+        model: model
+      },
+      params: {
+        'search': {}
+      }
+    };
+
+    const columns = ['firstName'];
+
+    expect(search(query, request, columns)).toEqual(query);
+  });
+
   test('throws error for invalid column', () => {
     model.store.config.driver = 'pg';
 
