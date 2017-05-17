@@ -21,10 +21,14 @@ describe('search', () => {
         type = 'integer'
       }
 
-      return {
-        'type': type,
-        'columnName': underscore(column)
-      };
+      if(column !== 'invalidColumn'){
+        return {
+          'type': type,
+          'columnName': underscore(column)
+        };
+      } else {
+        return null;
+      }
     }),
     store: {
       config: {}
@@ -84,6 +88,25 @@ describe('search', () => {
     const columns = [];
 
     expect(search(query, request, columns)).toEqual(query);
+  });
+
+  test('throws error for invalid column', () => {
+    model.store.config.driver = 'pg';
+
+    const request = {
+      controller: {
+        model: model
+      },
+      params: {
+        'search': {
+          'firstName': 'John'
+        }
+      }
+    };
+
+    const columns = ['invalidColumn'];
+
+    expect(() => {search(query, request, columns)}).toThrowError(`[lux-search] Column doesn't exist`);
   });
 
   test('searches for text', () => {
