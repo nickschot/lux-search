@@ -107,6 +107,25 @@ describe('search', () => {
     expect(search(query, request, columns)).toEqual(query);
   });
 
+  test('gracefully skips if the multi column key is not defined in columns', () => {
+    model.store.config.driver = 'pg';
+
+    const request = {
+      controller: {
+        model: model
+      },
+      params: {
+        'search': {
+          'fullAddress': 'Some Street 24'
+        }
+      }
+    };
+
+    const columns = [['fullName', ['firstName', 'suffix', 'lastName']]];
+
+    expect(search(query, request, columns)).toEqual(query);
+  });
+
   test('throws error for invalid column', () => {
     model.store.config.driver = 'pg';
 
