@@ -109,6 +109,25 @@ describe('search', () => {
     expect(() => {search(query, request, columns)}).toThrowError(`[lux-search] Column doesn't exist`);
   });
 
+  test('throws error for invalid column definition', () => {
+    model.store.config.driver = 'pg';
+
+    const request = {
+      controller: {
+        model: model
+      },
+      params: {
+        'search': {
+          'firstName': 'John'
+        }
+      }
+    };
+
+    const columns = ['firstName', 0];
+
+    expect(() => {search(query, request, columns)}).toThrowError(`[lux-search] Column definition contains invalid value`);
+  });
+
   test('searches for text', () => {
     model.store.config.driver = 'pg';
 
