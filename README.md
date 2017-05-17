@@ -1,6 +1,8 @@
 # lux-search
 Search util for [Lux](https://github.com/postlight/lux).
 
+[![Build Status](https://travis-ci.org/nickschot/lux-search.svg?branch=master)](https://travis-ci.org/nickschot/lux-search) [![Coverage Status](https://coveralls.io/repos/github/nickschot/lux-search/badge.svg?branch=master)](https://coveralls.io/github/nickschot/lux-search?branch=master) [![Dependency Status](https://david-dm.org/nickschot/lux-search.svg)](https://david-dm.org/nickschot/lux-search) [![npm version](https://badge.fury.io/js/lux-search.svg)](https://badge.fury.io/js/lux-search)
+
 __IMPORTANT:__ This util requires Lux 1.2.0+.
 
 ## Install
