@@ -18,7 +18,9 @@ describe('search', () => {
       if(column === 'firstName'){
         type = 'varchar';
       } else if(column === 'age'){
-        type = 'integer'
+        type = 'integer';
+      } else if (column === 'invalidType'){
+        type = 'invalid';
       }
 
       if(column !== 'invalidColumn'){
@@ -162,6 +164,25 @@ describe('search', () => {
     const columns = ['firstName', 0];
 
     expect(() => {search(query, request, columns)}).toThrowError(`[lux-search] Column definition contains invalid value`);
+  });
+
+  test('throws error for invalid column type', () => {
+    model.store.config.driver = 'pg';
+
+    const request = {
+      controller: {
+        model: model
+      },
+      params: {
+        'search': {
+          'invalidType': 'John'
+        }
+      }
+    };
+
+    const columns = ['invalidType'];
+
+    expect(() => {search(query, request, columns)}).toThrowError(`[lux-search] Column type is not (yet) searchable`);
   });
 
   test('searches for text', () => {
