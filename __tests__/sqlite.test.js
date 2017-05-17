@@ -1,4 +1,4 @@
-import buildQuery from '../sqlite';
+import buildQuery from '../lib/search-drivers/sqlite';
 
 describe('sqlite query builder', () => {
   const query = {

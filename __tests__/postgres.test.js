@@ -1,4 +1,4 @@
-import buildQuery from '../postgres';
+import buildQuery from '../lib/search-drivers/postgres';
 
 describe('postgres query builder', () => {
   const query = {
