@@ -17,6 +17,7 @@
   "scripts": {
     "build": "babel lib -d dist --source-maps",
     "test": "jest",
+    "coverall": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
     "prepublish": "npm run build"
   },
   "engines": {
@@ -33,7 +34,9 @@
     "babel-plugin-transform-exponentiation-operator": "^6.24.1",
     "babel-plugin-transform-flow-strip-types": "^6.18.0",
     "babel-plugin-transform-object-rest-spread": "^6.16.0",
-    "jest": "^19.0.2"
+    "coveralls": "^2.13.1",
+    "jest": "^19.0.2",
+    "nyc": "^10.3.2"
   },
   "dependencies": {
     "inflection": "^1.12.0"
