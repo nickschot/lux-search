@@ -1,4 +1,4 @@
-import buildQuery from '../mysql';
+import buildQuery from '../lib/search-drivers/mysql';
 
 describe('mysql query builder', () => {
   const query = {
