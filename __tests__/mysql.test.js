@@ -43,7 +43,7 @@ describe('mysql query builder', () => {
 
     const result = buildQuery(query, tableName, _text, _number, _multiColumn, multiColumn);
 
-    expect(result.queryString).toBe(`CONCAT_WS('',firstName,suffix,lastName) LIKE ?`);
+    expect(result.queryString).toBe(`CONCAT_WS('',test_table.firstName,test_table.suffix,test_table.lastName) LIKE ?`);
     expect(result.queryValues).toEqual(['%JohndOe%']);
   });
 
@@ -59,7 +59,7 @@ describe('mysql query builder', () => {
 
     const result = buildQuery(query, tableName, _text, _number, _multiColumn, multiColumn);
 
-    expect(result.queryString).toBe(`test_table.text_column LIKE ? AND CAST(test_table.number_column AS CHAR) LIKE ? AND CONCAT_WS('',firstName,suffix,lastName) LIKE ?`);
+    expect(result.queryString).toBe(`test_table.text_column LIKE ? AND CAST(test_table.number_column AS CHAR) LIKE ? AND CONCAT_WS('',test_table.firstName,test_table.suffix,test_table.lastName) LIKE ?`);
     expect(result.queryValues).toEqual(['%example search%', '123%', '%JohndOe%']);
   });
 });

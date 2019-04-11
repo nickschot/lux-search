@@ -43,7 +43,7 @@ describe('postgres query builder', () => {
 
     const result = buildQuery(query, tableName, _text, _number, _multiColumn, multiColumn);
 
-    expect(result.queryString).toBe(`coalesce(first_name, '') || coalesce(suffix, '') || coalesce(last_name, '') ILIKE ?`);
+    expect(result.queryString).toBe(`coalesce(test_table.first_name, '') || coalesce(test_table.suffix, '') || coalesce(test_table.last_name, '') ILIKE ?`);
     expect(result.queryValues).toEqual(['%JohndOe%']);
   });
 
@@ -59,7 +59,7 @@ describe('postgres query builder', () => {
 
     const result = buildQuery(query, tableName, _text, _number, _multiColumn, multiColumn);
 
-    expect(result.queryString).toBe(`test_table.text_column ILIKE ? AND CAST(test_table.number_column AS TEXT) LIKE ? AND coalesce(first_name, '') || coalesce(suffix, '') || coalesce(last_name, '') ILIKE ?`);
+    expect(result.queryString).toBe(`test_table.text_column ILIKE ? AND CAST(test_table.number_column AS TEXT) LIKE ? AND coalesce(test_table.first_name, '') || coalesce(test_table.suffix, '') || coalesce(test_table.last_name, '') ILIKE ?`);
     expect(result.queryValues).toEqual(['%example search%', '123%', '%JohndOe%']);
   });
 });
