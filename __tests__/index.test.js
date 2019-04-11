@@ -244,7 +244,7 @@ describe('search', () => {
     const columns = [['fullName', ['firstName', 'suffix', 'lastName']]];
 
     expect(search(query, request, columns)).toEqual({
-      'queryString': `coalesce(first_name, '') || coalesce(suffix, '') || coalesce(last_name, '') ILIKE ?`,
+      'queryString': `coalesce(test_table.first_name, '') || coalesce(test_table.suffix, '') || coalesce(test_table.last_name, '') ILIKE ?`,
       'queryValues': ['%JohnDo%']});
   });
 
@@ -271,7 +271,7 @@ describe('search', () => {
     ];
 
     expect(search(query, request, columns)).toEqual({
-      'queryString': `test_table.first_name ILIKE ? AND CAST(test_table.age AS TEXT) LIKE ? AND coalesce(first_name, '') || coalesce(suffix, '') || coalesce(last_name, '') ILIKE ?`,
+      'queryString': `test_table.first_name ILIKE ? AND CAST(test_table.age AS TEXT) LIKE ? AND coalesce(test_table.first_name, '') || coalesce(test_table.suffix, '') || coalesce(test_table.last_name, '') ILIKE ?`,
       'queryValues': ['%John%', '3%', '%JohnDo%']});
   });
 });
